@@ -114,15 +114,13 @@
 
   if (isListOfMappings) {
     //! List of mappings
+    BOOL parseResult = YES;
     NSArray *stringMappings = [mapping componentsSeparatedByCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"&"]];
     for (NSString *innerMapping in stringMappings) {
       NSString *wipedInnerMapping = [innerMapping stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-      BOOL parse = [self mapValue:value toInstance:instance usingStringMapping:wipedInnerMapping];
-      if (!parse) {
-        return NO;
-      }
+      parseResult = [self mapValue:value toInstance:instance usingStringMapping:wipedInnerMapping] && parseResult;
     }
-    return YES;
+    return parseResult;
   }
 
   //! Single boxing
